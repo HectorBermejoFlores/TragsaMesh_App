@@ -62,6 +62,8 @@ import org.meshtastic.core.resources.export_configuration
 import org.meshtastic.core.resources.filter_settings
 import org.meshtastic.core.resources.help_and_documentation
 import org.meshtastic.core.resources.import_configuration
+import org.meshtastic.core.resources.mqtt
+import org.meshtastic.core.resources.mqtt_config
 import org.meshtastic.core.resources.node_layout_section_title
 import org.meshtastic.core.resources.preferences_language
 import org.meshtastic.core.resources.wifi_devices
@@ -332,6 +334,13 @@ fun SettingsScreen(
                         ) {
                             onNavigate(SettingsRoute.AppFunctionsSettings)
                         }
+                    }
+                    ListItem(
+                        text = stringResource(Res.string.mqtt),
+                        supportingText = stringResource(Res.string.mqtt_config),
+                        leadingIcon = MeshtasticIcons.Device,
+                    ) {
+                        onNavigate(SettingsRoute.AppMqttSettings)
                     }
                 }
 

@@ -51,6 +51,8 @@ import org.meshtastic.feature.settings.NodeListScreen
 import org.meshtastic.feature.settings.SettingsViewModel
 import org.meshtastic.feature.settings.appfunctions.AppFunctionsSettingsScreen
 import org.meshtastic.feature.settings.appfunctions.AppFunctionsSettingsViewModel
+import org.meshtastic.feature.settings.appmqtt.AppMqttSettingsScreen
+import org.meshtastic.feature.settings.appmqtt.AppMqttSettingsViewModel
 import org.meshtastic.feature.settings.debugging.DebugScreen
 import org.meshtastic.feature.settings.debugging.DebugViewModel
 import org.meshtastic.feature.settings.filter.FilterSettingsScreen
@@ -455,6 +457,10 @@ fun EntryProviderScope<NavKey>.settingsGraph(
     entry<SettingsRoute.AppFunctionsSettings> {
         val viewModel: AppFunctionsSettingsViewModel = koinViewModel()
         AppFunctionsSettingsScreen(viewModel = viewModel, onBack = dropUnlessResumed { backStack.removeLastOrNull() })
+    }
+    entry<SettingsRoute.AppMqttSettings> {
+        val viewModel: AppMqttSettingsViewModel = koinViewModel()
+        AppMqttSettingsScreen(viewModel = viewModel, onBack = dropUnlessResumed { backStack.removeLastOrNull() })
     }
 }
 

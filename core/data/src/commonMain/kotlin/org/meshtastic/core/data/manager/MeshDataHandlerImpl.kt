@@ -85,6 +85,7 @@ import org.meshtastic.proto.Routing
 import org.meshtastic.proto.StatusMessage
 import org.meshtastic.proto.User
 import org.meshtastic.proto.Waypoint
+import org.meshtastic.core.repository.usecase.MqttPrefs
 
 /**
  * Implementation of [MeshDataHandler] that decodes and routes incoming mesh data packets.
@@ -119,6 +120,8 @@ class MeshDataHandlerImpl(
     private val radioInterfaceService: RadioInterfaceService,
     private val activeConversationTracker: ActiveConversationTracker,
     private val scope: ServiceScope,
+    private val mqttPrefs: MqttPrefs,
+    private val mqttPositionForwarder: MqttPositionForwarder,
 ) : MeshDataHandler {
 
     override fun handleReceivedData(
@@ -285,6 +288,22 @@ class MeshDataHandlerImpl(
         Logger.d { "Position from ${packet.from}: ${Position.ADAPTER.toOneLiner(p)}" }
         nodeManager.handleReceivedPosition(packet.from, myNodeNum, p, dataPacket.time, session)
         geofenceMonitor.onPositionReceived(packet.from, myNodeNum, p, session)
+
+        Logger.i {
+            "POSITION_TO_MQTT: " +
+                    "from=${packet.from.toUInt()} " +
+                    "packetId=${packet.id} " +
+                    "enabled=${mqttPrefs.enabled.value}"
+        }
+
+        if (mqttPrefs.enabled.value) {
+            mqttPositionForwarder.forward(
+                from = packet.from,
+                id = packet.id,
+                position = p,
+                receivedTime = dataPacket.time,
+            )
+        }
     }
 
     private fun handleWaypoint(

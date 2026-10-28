@@ -21,7 +21,8 @@ import kotlinx.serialization.Serializable
 
 const val DEEP_LINK_BASE_URI = "meshtastic://meshtastic"
 
-interface Route : NavKey
+interface
+Route : NavKey
 
 interface Graph : Route
 
@@ -199,6 +200,8 @@ sealed interface SettingsRoute : Route {
     @Serializable data object DeviceLinks : SettingsRoute
 
     @Serializable data object AppFunctionsSettings : SettingsRoute
+
+    @Serializable data object AppMqttSettings : SettingsRoute
 
     // endregion
 

@@ -94,7 +94,7 @@ class MqttPrefsImpl(
 
         val KEY_HOST =
             stringPreferencesKey(
-                "mqtt_gateway_port",
+                "mqtt_gateway_host",
             )
         val KEY_PORT =
             intPreferencesKey(
